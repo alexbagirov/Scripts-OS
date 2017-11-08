@@ -47,5 +47,5 @@ MUL 100 &-1 100
 WR 100
 EXT
 
-WR &&uncertaincy
+WR &&uncertainty
 EXT

@@ -36,7 +36,6 @@ var commands = {
 var memory = convertCommandsIntoNumbers(code);
 
 runProgram(memory, commands);
-process.exit(0);
 
 function runProgram(memory, commands) {
     // Init registers
@@ -60,13 +59,13 @@ function runProgram(memory, commands) {
                 checkRegistersExistance(ip + 1, ip + 3);
 
                 // Those arguments may be plain numbers or register references
-                var firstTerm = getValueFromMemory(memory[ip + 1]);
-                var secondTerm = getValueFromMemory(memory[ip + 2]);
+                var a = getValueFromMemory(memory[ip + 1]);
+                var b = getValueFromMemory(memory[ip + 2]);
                 // This argument should be the number of another register
                 failIfArgumentIsNotNumber(ip + 3);
                 var destinationRegister = Number(memory[ip + 3]);
 
-                memory[destinationRegister] = firstTerm + secondTerm;
+                memory[destinationRegister] = a + b;
                 ip += 4;
                 continue;
             case 'JMP':
@@ -139,12 +138,12 @@ function runProgram(memory, commands) {
                 checkRegistersExistance(ip + 1, ip + 2);
 
                 // Those arguments may be plain numbers or register references
-                var firstNumber = getValueFromMemory(memory[ip + 1]);
-                var secondNumber = getValueFromMemory(memory[ip + 2]);
+                var a = getValueFromMemory(memory[ip + 1]);
+                var b = getValueFromMemory(memory[ip + 2]);
 
-                if (firstNumber < secondNumber) {
+                if (a < b) {
                     cmp = -1;
-                } else if (firstNumber > secondNumber) {
+                } else if (a > b) {
                     cmp = 1;
                 } else {
                     cmp = 0;
@@ -173,19 +172,19 @@ function runProgram(memory, commands) {
                 checkRegistersExistance(ip + 1, ip + 2);
 
                 // Those arguments may be plain numbers or register references
-                var firstMultiplier = getValueFromMemory(memory[ip + 1]);
-                var secondMultiplier = getValueFromMemory(memory[ip + 2]);
+                var a = getValueFromMemory(memory[ip + 1]);
+                var b = getValueFromMemory(memory[ip + 2]);
                 // This argument should be the number of another register
                 failIfArgumentIsNotNumber(ip + 3);
                 var destinationRegister = Number(memory[ip + 3]);
 
-                memory[destinationRegister] = firstMultiplier * secondMultiplier;
+                memory[destinationRegister] = a * b;
                 ip += 4;
                 continue;
             case 'EXT':
                 // EXT command
                 // Terminates the program
-                break;
+                return;
             case 'RD':
                 // RD command
                 // Reads the next argument and puts it into specified register
@@ -234,7 +233,7 @@ function getValueFromMemory(value) {
 
     if (value.startsWith('&&')) {
         return value.substring(2);
-    } else if (value[0] === '&' && value[1] !== '&') {
+    } else if (value[0] === '&') {
         return Number(value.substring(1));
     } else {
         return Number(memory[value]);
@@ -247,15 +246,15 @@ function isRegisterReference(value) {
 }
 
 function failIfArgumentIsNotNumber(ip) {
-    // This will terminate the program if a plain number is provided instead of
-    // register regerence
+    // Throws an error if a plain number is provided instead of
+    // register reference
     if (!isRegisterReference(memory[ip])) {
         throwError('Should not be a number', 3);
     }
 }
 
 function checkRegistersExistance(from, to) {
-    // This will terminate the program if there are not enough command arguments
+    // Throws an error if there are not enough command arguments
     for (var i = from; i <= to; i++) {
         if (typeof memory[i] === 'undefined') {
             throwError('Not enough arguments', 2);
