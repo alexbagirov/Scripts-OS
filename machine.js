@@ -54,7 +54,7 @@ function runProgram(memory, commands) {
         switch (nextCommand) {
             case 'ADD':
                 // ADD command
-                // Sums add0 with add1 and puts the result into add2
+                // Sums a with b and puts the result into register in third operand
 
                 checkRegistersExistance(ip + 1, ip + 3);
 
@@ -131,9 +131,9 @@ function runProgram(memory, commands) {
             case 'CMP':
                 // CMP command
                 // Updates the CMP register with new value using this rule:
-                //    * cmp0 = cmp1 -> cmp = 0
-                //    * cmp0 < cmp1 -> cmp = -1
-                //    * cmp0 > cmp1 -> cmp = 1
+                //    * a = b -> cmp = 0
+                //    * a < b -> cmp = -1
+                //    * a > b -> cmp = 1
 
                 checkRegistersExistance(ip + 1, ip + 2);
 
@@ -167,7 +167,7 @@ function runProgram(memory, commands) {
                 continue;
             case 'MUL':
                 // MUL command
-                // Multiplies mul0 with mul1 and puts the result into mul2
+                // Multiplies a with b and puts the result into register in third operand
 
                 checkRegistersExistance(ip + 1, ip + 2);
 
