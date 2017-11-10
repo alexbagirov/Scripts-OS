@@ -65,12 +65,22 @@ function processOperation(symbol, stack, answer) {
         stack.push(symbol);
         return answer;
     }
-
-    while (stack.length > 0 && priorities[symbol] <= priorities[stack[stack.length - 1]]) {
-        if (stack[stack.length - 1] !== '(') {
-            answer += stack[stack.length - 1];
+    
+    if (symbol !== '^') {
+        while (stack.length > 0 && priorities[symbol] <= priorities[stack[stack.length - 1]]) {
+            if (stack[stack.length - 1] !== '(') {
+                answer += stack[stack.length - 1];
+            }
+            stack.pop();
         }
-        stack.pop();
+    }
+    else {
+        while (stack.length > 0 && priorities[symbol] < priorities[stack[stack.length - 1]]) {
+            if (stack[stack.length - 1] !== '(') {
+                answer += stack[stack.length - 1];
+            }
+            stack.pop();
+        }
     }
 
     stack.push(symbol);
