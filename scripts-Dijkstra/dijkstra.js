@@ -1,12 +1,10 @@
 if (typeof (process.argv[2]) === undefined) {
-    console.log('Please provide the input.');
-    process.exit(6);
+    throwError('Please provide the input', 1);
 }
 var operation = process.argv[2];
 
 if (typeof (process.argv[3]) === undefined) {
-    console.log('Expression not specified.');
-    process.exit(7);
+    throwError('Expression not specified', 2);
 }
 
 var priorities = {
@@ -17,16 +15,14 @@ var priorities = {
     '/': 2,
     '^': 3
 };
+var argumentIsRequired = false;
 
 if (operation === 'in2post') {
     console.log(encode(process.argv[3]));
-    process.exit(0);
 } else if (operation === 'post2in') {
     console.log(decode(process.argv[3]));
-    process.exit(0);
 } else {
-    console.log('Operation not found.');
-    process.exit(2);
+    throwError('Operation not found', 3);
 }
 
 function encode(data) {
@@ -37,12 +33,19 @@ function encode(data) {
     while (pointer < data.length) {
         var currentSymbol = data[pointer];
         if (currentSymbol === ')') {
+            if (argumentIsRequired) {
+                throwError('Not enough arguments', 4);
+            }
             answer = processClosingParenthesis(stack, answer);
             pointer += 1;
         } else if (!(currentSymbol in priorities)) {
             answer += currentSymbol;
             pointer += 1;
+            argumentIsRequired = false;
         } else {
+            if (argumentIsRequired && currentSymbol !== '(') {
+                throwError('Not enough arguments', 4);
+            }
             answer = processOperation(currentSymbol, stack, answer);
             pointer += 1;
         }
@@ -50,8 +53,7 @@ function encode(data) {
 
     while (stack.length > 0) {
         if (stack[stack.length - 1] === '(') {
-            console.log('Error: incorrect parenthesis.'); // throw
-            process.exit(2);
+            throwError('Incorrect parenthesis', 5);
         }
         answer += stack[stack.length - 1];
         stack.pop();
@@ -83,6 +85,7 @@ function processOperation(symbol, stack, answer) {
         }
     }
 
+    argumentIsRequired = true;
     stack.push(symbol);
     return answer;
 }
@@ -97,8 +100,7 @@ function processClosingParenthesis(stack, answer) {
         answer += topStackSymbol;
     }
 
-    console.log('Error: incorrect parenthesis.');
-    process.exit(2);
+    throwError('Incorrect parenthesis', 5);
 }
 
 function decode(data) {
@@ -113,8 +115,7 @@ function decode(data) {
             pointer += 1;
         } else {
             if (stack.length < 2) {
-                console.log('Error: not enough operands.');
-                process.exit(5);
+                throwError('Not enough operands', 6);
             }
             var firstElement = stack.pop();
             var secondElement = stack.pop();
@@ -129,19 +130,24 @@ function decode(data) {
     }
 
     if (stack.length > 1) {
-        console.log('Error: not enough operations.');
-        process.exit(3);
+        throwError('Not enough operations', 7);
     }
+    
     return stack.pop()[0];
 }
 
 function prioritize(element, currentOperation, isFirst) {
-    if (element[1] !== 0 && element[1] < priorities[currentOperation]) {
-        element[0] = '(' + element[0] + ')';
-    }
-    if (currentOperation === '-' && isFirst && element[1] === 1) {
+    var firstCondition = currentOperation === '^' && element[1] === priorities['^'] && !isFirst;
+    var secondCondition = element[1] !== 0 && element[1] < priorities[currentOperation];
+    var thirdCondition = currentOperation === '-' && isFirst && element[1] === 1;
+
+    if (firstCondition || secondCondition || thirdCondition) {
         element[0] = '(' + element[0] + ')';
     }
 
     return element;
+}
+
+function throwError(error, code) {
+    throw new Error('Error ' + code + ': ' + error + '.');
 }
