@@ -22,7 +22,7 @@ function searchUsingHashSumOfSquares(text, substring) {
         i++;
     }
 
-    return entries;
+    return [entries, collisions];
 }
 
 function calculateSubstringHash(substring) {

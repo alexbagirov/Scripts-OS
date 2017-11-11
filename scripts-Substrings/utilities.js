@@ -11,4 +11,9 @@ function stringsAreEqual(a, b) {
     return true;
 }
 
+function throwError(message, code) {
+    throw new Error('Error ' + code + ': ' + message + '.');
+}
+
 module.exports.stringsAreEqual = stringsAreEqual;
+module.exports.throwError = throwError;

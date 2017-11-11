@@ -21,7 +21,7 @@ function bruteForce(text, substring) {
         i++;
     }
     
-    return entries;
+    return [entries, 0];
 }
 
 module.exports.find = bruteForce;
