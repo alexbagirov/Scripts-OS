@@ -1,3 +1,5 @@
+var utilities = require('./utilities');
+
 function bruteForce(text, substring) {
     /*
     *   Brute force substrings finding function.
@@ -9,9 +11,9 @@ function bruteForce(text, substring) {
     var entries = [];
     
     var i = 0;
-    while (i < text.length - substring.length) {
+    while (i < text.length - substring.length + 1) {
         if (text[i] == substring[0]) {
-            if (stringsAreEqual(text.substring(i, i + substring.length), substring)) {
+            if (utilities.stringsAreEqual(text.substring(i, i + substring.length), substring)) {
                 entries.push(i);
             }
         }
@@ -20,19 +22,6 @@ function bruteForce(text, substring) {
     }
     
     return entries;
-}
-
-function stringsAreEqual(a, b) {
-    /*
-    *   This will return true if strings a and b are equal
-    */
-    for (var i = 0; i < a.length; i++) {
-        if (a[i] !== b[i]) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 module.exports.find = bruteForce;
