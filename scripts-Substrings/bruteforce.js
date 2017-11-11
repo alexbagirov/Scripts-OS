@@ -9,6 +9,7 @@ function bruteForce(text, substring) {
     *   Returns an array of intries' indexes.
     */
     var entries = [];
+    var startupTime = Date.now();
     
     var i = 0;
     while (i < text.length - substring.length + 1) {
@@ -20,8 +21,10 @@ function bruteForce(text, substring) {
 
         i++;
     }
+
+    var completionTime = Date.now();
     
-    return [entries, 0];
+    return [entries, 0, completionTime - startupTime];
 }
 
 module.exports.find = bruteForce;

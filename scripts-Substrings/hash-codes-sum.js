@@ -2,6 +2,7 @@ var utilities = require('./utilities');
 
 function searchUsingHashSum(text, substring) {
     var entries = [];
+    var startupTime = Date.now();
     var collisions = 0;
     var substringHash = calculateSubstringHash(substring);
 
@@ -20,7 +21,9 @@ function searchUsingHashSum(text, substring) {
         i++;
     }
 
-    return [entries, collisions];
+    var completionTime = Date.now();
+
+    return [entries, collisions, completionTime - startupTime];
 }
 
 function calculateSubstringHash(substring) {

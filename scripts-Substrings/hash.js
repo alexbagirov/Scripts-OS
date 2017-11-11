@@ -88,5 +88,9 @@ function makeAnswer(array, flags, collision) {
         answer += 'Collisions: ' + String(array[1]) + '\r\n';
     }
 
+    if (flags.computeTime) {
+        answer += 'Time: ' + String(array[2]) + 'ms\r\n'
+    }
+
     return answer;
 }
