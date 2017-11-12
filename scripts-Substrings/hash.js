@@ -2,6 +2,7 @@ var fs = require('fs');
 var bruteforce = require('./bruteforce');
 var hashCodesSum = require('./hash-codes-sum');
 var hashCodesSumOfSquares = require('./hash-codes-squared-sum');
+var hashRabinKarp = require('./hash-rabin-karp');
 var utilities = require('./utilities')
 
 if (typeof process.argv[2] === 'undefined') {
@@ -34,6 +35,9 @@ if (flags.hashSums) {
 }
 if (flags.hashSumsOfSquares) {
     console.log(makeAnswer(hashCodesSumOfSquares.find(text, substring), flags, true));
+}
+if (flags.rabinKarp) {
+    console.log(makeAnswer(hashRabinKarp.find(text, substring), flags, true));
 }
 
 function processFlags(flags, arguments) {
