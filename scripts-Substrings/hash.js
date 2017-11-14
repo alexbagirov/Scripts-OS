@@ -15,32 +15,34 @@ if (typeof process.argv[3] === 'undefined') {
 var substringFileName = process.argv[3];
 
 try {
-    var text = fs.readFileSync(textFileName, 'binary');
+    // var text = fs.readFileSync(textFileName, 'binary');
+    var text = 'aaaaaa';
 } catch (exception) {
     utilities.throwError('Text reading exception: ' + exception, 3);
 }
 try {
-    var substring = fs.readFileSync(substringFileName, 'binary');
+    // var substring = fs.readFileSync(substringFileName, 'binary');
+    var substring = 'a';
 } catch (exception) {
     utilities.throwError('Substring reading exception: ' + exception, 4);
 }
 
-var flags = processFlags(flags, process.argv);
+var flags = processFlags(process.argv);
 
 if (flags.bruteforce) {
     console.log(makeAnswer(bruteforce.find(text, substring), flags, false));
 }
 if (flags.hashSums) {
-    console.log(makeAnswer(hashCodesSum.find(text, substring), flags, true));
+    console.log(makeAnswer(hashCodesSum.search(text, substring), flags, true));
 }
 if (flags.hashSumsOfSquares) {
-    console.log(makeAnswer(hashCodesSumOfSquares.find(text, substring), flags, true));
+    console.log(makeAnswer(hashCodesSumOfSquares.search(text, substring), flags, true));
 }
 if (flags.rabinKarp) {
-    console.log(makeAnswer(hashRabinKarp.find(text, substring), flags, true));
+    console.log(makeAnswer(hashRabinKarp.search(text, substring), flags, true));
 }
 
-function processFlags(flags, arguments) {
+function processFlags(arguments) {
     var flags = {
         computeTime: false,
         bruteforce: false,
@@ -69,9 +71,9 @@ function processFlags(flags, arguments) {
                 flags.rabinKarp = true;
                 continue;
             case '-n':
+                flags.numberOfResults = +additionalArgs[i + 1];
                 continue;
             default:
-                flags.numberOfResults = +additionalArgs[i];
                 continue;
         }
     }

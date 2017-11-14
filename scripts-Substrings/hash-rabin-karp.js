@@ -1,30 +1,8 @@
 var utilities = require('./utilities');
+var hashSearch = require('./hash-search');
 
 function searchUsingRabinKarp(text, substring) {
-    var entries = [];
-    var startupTime = Date.now();
-    var collisions = 0;
-    const BASE = 2;
-    var substringHash = calculateSubstringHash(substring, BASE);
-    
-    var bufferHash = calculateSubstringHash(text.substring(0, substring.length), BASE);
-    var newAnswers = utilities.compareHashes(text.substring(0, substring.length), substring, 0, bufferHash, substringHash, entries, collisions);
-    entries = newAnswers[0];
-    collisions = newAnswers[1];
-
-    var i = substring.length;
-    while (i < text.length) {
-        bufferHash -= text.charCodeAt(i - 1) * Math.pow(BASE, i - 1);
-        bufferHash += text.charCodeAt(i) * Math.pow(BASE, i);
-        var newAnswers = utilities.compareHashes(text.substring(i - substring.length + 1, i + 1), substring, i - substring.length + 1, bufferHash, substringHash, entries, collisions);
-        entries = newAnswers[0];
-        collisions = newAnswers[1];
-        i++;
-    }
-
-    var completionTime = Date.now();
-
-    return [entries, collisions, completionTime - startupTime];
+    return hashSearch.search(text, substring, calculateSubstringHash, updateBufferHash, 2);
 }
 
 function calculateSubstringHash(substring, base) {
@@ -40,4 +18,10 @@ function calculateSubstringHash(substring, base) {
     return hash;
 }
 
-module.exports.find = searchUsingRabinKarp;
+function updateBufferHash(bufferHash, text, substring, i, base) {
+    bufferHash -= text.charCodeAt(i - substring.length) * Math.pow(base, i - substring.length);
+    bufferHash += text.charCodeAt(i) * Math.pow(base, substring.length - i);
+    return bufferHash;
+}
+
+module.exports.search = searchUsingRabinKarp;

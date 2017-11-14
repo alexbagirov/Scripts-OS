@@ -1,29 +1,8 @@
 var utilities = require('./utilities');
+var hashSearch = require('./hash-search');
 
 function searchUsingHashSum(text, substring) {
-    var entries = [];
-    var startupTime = Date.now();
-    var collisions = 0;
-    var substringHash = calculateSubstringHash(substring);
-
-    var bufferHash = calculateSubstringHash(text.substring(0, substring.length));
-    var newAnswers = utilities.compareHashes(text.substring(0, substring.length), substring, 0, bufferHash, substringHash, entries, collisions);
-    entries = newAnswers[0];
-    collisions = newAnswers[1];
-
-    var i = substring.length;
-    while (i < text.length) {
-        bufferHash -= text.charCodeAt(i - 1);
-        bufferHash += text.charCodeAt(i);
-        var newAnswers = utilities.compareHashes(text.substring(i - substring.length + 1, i + 1), substring, i - substring.length + 1, bufferHash, substringHash, entries, collisions);
-        entries = newAnswers[0];
-        collisions = newAnswers[1];
-        i++;
-    }
-
-    var completionTime = Date.now();
-
-    return [entries, collisions, completionTime - startupTime];
+    return hashSearch.search(text, substring, calculateSubstringHash, updateBufferHash, 1);
 }
 
 function calculateSubstringHash(substring) {
@@ -39,4 +18,10 @@ function calculateSubstringHash(substring) {
     return hash;
 }
 
-module.exports.find = searchUsingHashSum;
+function updateBufferHash(bufferHash, text, substring, i) {
+    bufferHash -= text.charCodeAt(i - substring.length);
+    bufferHash += text.charCodeAt(i);
+    return bufferHash;
+}
+
+module.exports.search = searchUsingHashSum;
