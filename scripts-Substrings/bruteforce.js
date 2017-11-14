@@ -27,4 +27,4 @@ function bruteForce(text, substring) {
     return [entries, 0, completionTime - startupTime];
 }
 
-module.exports.find = bruteForce;
+module.exports.search = bruteForce;

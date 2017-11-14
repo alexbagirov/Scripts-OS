@@ -30,7 +30,7 @@ try {
 var flags = processFlags(process.argv);
 
 if (flags.bruteforce) {
-    console.log(makeAnswer(bruteforce.find(text, substring), flags, false));
+    console.log(makeAnswer(bruteforce.search(text, substring), flags, false));
 }
 if (flags.hashSums) {
     console.log(makeAnswer(hashCodesSum.search(text, substring), flags, true));
