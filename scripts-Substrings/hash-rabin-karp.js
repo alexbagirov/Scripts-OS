@@ -2,7 +2,7 @@ var utilities = require('./utilities');
 
 function searchUsingRabinKarp(text, substring) {
     var entries = [];
-    var stratupTime = Date.now();
+    var startupTime = Date.now();
     var collisions = 0;
     const BASE = 2;
     var substringHash = calculateSubstringHash(substring, BASE);
@@ -14,8 +14,8 @@ function searchUsingRabinKarp(text, substring) {
 
     var i = substring.length;
     while (i < text.length) {
-        bufferHash -= text.charCodeAt(i - 1) * Math.pow(base, i - 1);
-        bufferHash += text.charCodeAt(i) * Math.pow(base, i);
+        bufferHash -= text.charCodeAt(i - 1) * Math.pow(BASE, i - 1);
+        bufferHash += text.charCodeAt(i) * Math.pow(BASE, i);
         var newAnswers = utilities.compareHashes(text.substring(i - substring.length + 1, i + 1), substring, i - substring.length + 1, bufferHash, substringHash, entries, collisions);
         entries = newAnswers[0];
         collisions = newAnswers[1];

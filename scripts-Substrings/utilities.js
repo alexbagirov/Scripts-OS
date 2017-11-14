@@ -21,7 +21,7 @@ function compareHashesAndUpdateAnswer(a, b, index, firstHash, secondHash, entrie
     *   If they are equal, adds new index to answer. Otherwise increments collisions counter.
     */
     if (firstHash === secondHash) {
-        if (utilities.stringsAreEqual(a, b)) {
+        if (stringsAreEqual(a, b)) {
             entries.push(index);
         }
         else {

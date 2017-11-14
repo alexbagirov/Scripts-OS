@@ -83,7 +83,7 @@ function makeAnswer(array, flags, collision) {
     var answer = '';
 
     if (flags.numberOfResults) {
-        array[0] = array[0].slice(0, numberOfResults);
+        array[0] = array[0].slice(0, flags.numberOfResults);
     }
 
     answer += array[0].join(', ') + '\r\n';
