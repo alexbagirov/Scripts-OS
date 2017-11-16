@@ -1,12 +1,3 @@
-if (typeof (process.argv[2]) === undefined) {
-    throwError('Please provide the input', 1);
-}
-var operation = process.argv[2];
-
-if (typeof (process.argv[3]) === undefined) {
-    throwError('Expression not specified', 2);
-}
-
 var priorities = {
     '(': 0,
     '+': 1,
@@ -15,14 +6,71 @@ var priorities = {
     '/': 2,
     '^': 3
 };
-var argumentIsRequired = false;
 
-if (operation === 'in2post') {
-    console.log(encode(process.argv[3]));
-} else if (operation === 'post2in') {
-    console.log(decode(process.argv[3]));
-} else {
-    throwError('Operation not found', 3);
+var argumentIsRequired = true;
+
+var Errors = {
+    InputNotSpecified: {
+        code: 1,
+        message: 'Input not specified'
+    },
+    ExpressionNotSpecified: {
+        code: 2,
+        message: 'Expression not specified'
+    },
+    OperationNotFound: {
+        code: 3,
+        message: 'Operation not found'
+    },
+    NotEnoughArguments: {
+        code: 4,
+        message: 'Not enough arguments'
+    },
+    IncorrectParenthesis: {
+        code: 5,
+        message: 'Incorrect parenthesis'
+    },
+    NotEnoughOperands: {
+        code: 6,
+        message: 'Not enough operands'
+    },
+    NotEnoughOperations: {
+        code: 7,
+        message: 'Not enough operations'
+    },
+    TooManyOperands: {
+        code: 8,
+        message: 'Too many operands'
+    }
+}
+
+try {
+  if (typeof (process.argv[2]) === undefined) {
+      throwError(Errors.InputNotSpecified);
+  }
+  var operation = process.argv[2];
+
+  if (typeof (process.argv[3]) === undefined) {
+      throwError(Errors.ExpressionNotSpecified);
+  }
+}
+catch(exception) {
+  console.log(exception.message);
+  process.exit(1);
+}
+
+try {
+  if (operation === 'in2post') {
+      console.log(encode(process.argv[3]));
+  } else if (operation === 'post2in') {
+      console.log(decode(process.argv[3]));
+  } else {
+      throwError(Errors.OperationNotFound);
+  }
+}
+catch(exception) {
+  console.log(exception.message);
+  process.exit(2);
 }
 
 function encode(data) {
@@ -33,27 +81,30 @@ function encode(data) {
     while (pointer < data.length) {
         var currentSymbol = data[pointer];
         if (currentSymbol === ')') {
-            if (argumentIsRequired) {
-                throwError('Not enough arguments', 4);
-            }
-            answer = processClosingParenthesis(stack, answer);
-            pointer += 1;
+          if (argumentIsRequired) {
+              throwError(Errors.NotEnoughArguments);
+          }
+          answer = processClosingParenthesis(stack, answer);
+          pointer += 1;
         } else if (!(currentSymbol in priorities)) {
-            answer += currentSymbol;
-            pointer += 1;
-            argumentIsRequired = false;
+          if (!argumentIsRequired) {
+            throwError(Errors.TooManyOperands);
+          }
+          answer += currentSymbol;
+          pointer += 1;
+          argumentIsRequired = false;
         } else {
-            if (argumentIsRequired && currentSymbol !== '(') {
-                throwError('Not enough arguments', 4);
-            }
-            answer = processOperation(currentSymbol, stack, answer);
-            pointer += 1;
+          if (argumentIsRequired && currentSymbol !== '(') {
+              throwError(Errors.NotEnoughArguments);
+          }
+          answer = processOperation(currentSymbol, stack, answer);
+          pointer += 1;
         }
     }
 
     while (stack.length > 0) {
         if (stack[stack.length - 1] === '(') {
-            throwError('Incorrect parenthesis', 5);
+            throwError(Errors.IncorrectParenthesis);
         }
         answer += stack[stack.length - 1];
         stack.pop();
@@ -67,7 +118,7 @@ function processOperation(symbol, stack, answer) {
         stack.push(symbol);
         return answer;
     }
-    
+
     if (symbol !== '^') {
         while (stack.length > 0 && priorities[symbol] <= priorities[stack[stack.length - 1]]) {
             if (stack[stack.length - 1] !== '(') {
@@ -100,7 +151,7 @@ function processClosingParenthesis(stack, answer) {
         answer += topStackSymbol;
     }
 
-    throwError('Incorrect parenthesis', 5);
+    throwError(Errors.IncorrectParenthesis);
 }
 
 function decode(data) {
@@ -115,7 +166,7 @@ function decode(data) {
             pointer += 1;
         } else {
             if (stack.length < 2) {
-                throwError('Not enough operands', 6);
+                throwError(Errors.NotEnoughOperands);
             }
             var firstElement = stack.pop();
             var secondElement = stack.pop();
@@ -130,15 +181,15 @@ function decode(data) {
     }
 
     if (stack.length > 1) {
-        throwError('Not enough operations', 7);
+        throwError(Errors.NotEnoughOperations);
     }
-    
+
     return stack.pop()[0];
 }
 
 function prioritize(element, currentOperation, isFirst) {
     var firstCondition = currentOperation === '^' && element[1] === priorities['^'] && !isFirst;
-    var secondCondition = element[1] !== 0 && element[1] < priorities[currentOperation];
+    var secondCondition = element[1] !== 0 && element[1] <= priorities[currentOperation];
     var thirdCondition = currentOperation === '-' && isFirst && element[1] === 1;
 
     if (firstCondition || secondCondition || thirdCondition) {
@@ -148,6 +199,6 @@ function prioritize(element, currentOperation, isFirst) {
     return element;
 }
 
-function throwError(error, code) {
-    throw new Error('Error ' + code + ': ' + error + '.');
+function throwError(error) {
+    throw new Error('Error ' + error.code + ': ' + error.message + '.');
 }
