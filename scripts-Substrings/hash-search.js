@@ -15,7 +15,7 @@ function searchUsingHash(text, substring, calculateSubstringHash, updateBufferHa
     var i = substring.length;
     while (i < text.length) {
         bufferHash = updateBufferHash(bufferHash, text, substring, i, base);
-        var newAnswers = utilities.compareHashes(text.substring(i - substring.length + 1, i + 1), substring, i - substring.length + 1, bufferHash, substringHash, entries, collisions);
+        newAnswers = utilities.compareHashes(text.substring(i - substring.length + 1, i + 1), substring, i - substring.length + 1, bufferHash, substringHash, entries, collisions);
         entries = newAnswers[0];
         collisions = newAnswers[1];
         i++;

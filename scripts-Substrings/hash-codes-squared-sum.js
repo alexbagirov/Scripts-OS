@@ -1,4 +1,3 @@
-var utilities = require('./utilities');
 var hashSearch = require('./hash-search');
 
 function searchUsingHashSumOfSquares(text, substring) {
