@@ -39,20 +39,19 @@ for (var i = 0; i < additionalArguments.length; i++) {
     }
 }
 
-var startTime = Date.now();
-var auto = createAutomaton(substr);
-var searchResults = searchUsingAutomation(text, substr, auto, keys.numberOfResults);
-var executionTime = Date.now() - startTime;
+var searchResults = searchUsingAutomation(text, substr, keys.numberOfResults);
 
-console.log(searchResults.join(', '));
+console.log(searchResults['entries'].join(', '));
 if (keys.time) {
-    console.log('Time: ' + String(executionTime) + 'ms');
+    console.log('Time: ' + String(searchResults.time) + 'ms');
 }
 if (keys.showTable) {
-    printAutomaton(auto);
+    printAutomaton(searchResults.automaton);
 }
 
-function searchUsingAutomation(text, substr, auto, numberOfResults) {
+function searchUsingAutomation(text, substr, numberOfResults) {
+    var startTime = Date.now();
+    var auto = createAutomaton(substr);
     var state = 0;
     var entries = [];
     
@@ -72,7 +71,13 @@ function searchUsingAutomation(text, substr, auto, numberOfResults) {
         }
     }
 
-    return entries;
+    var results = {
+        entries: entries,
+        time: Date.now() - startTime,
+        automaton: auto
+    };
+
+    return results;
 }
 
 function createAutomaton(str) {
