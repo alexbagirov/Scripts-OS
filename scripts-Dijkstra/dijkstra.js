@@ -42,7 +42,7 @@ var Errors = {
         code: 8,
         message: 'Too many operands'
     }
-}
+};
 
 try {
   if (typeof (process.argv[2]) === 'undefined') {

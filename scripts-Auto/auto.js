@@ -10,7 +10,7 @@ var keys = {
     showTime: false,
     showTable: false,
     numberOfResults: NaN
-}
+};
 
 for (var i = 0; i < additionalArguments.length; i++) {
     switch(additionalArguments[i]) {
