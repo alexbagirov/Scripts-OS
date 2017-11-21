@@ -45,12 +45,12 @@ var Errors = {
 }
 
 try {
-  if (typeof (process.argv[2]) === undefined) {
+  if (typeof (process.argv[2]) === 'undefined') {
       throwError(Errors.InputNotSpecified);
   }
   var operation = process.argv[2];
 
-  if (typeof (process.argv[3]) === undefined) {
+  if (typeof (process.argv[3]) === 'undefined') {
       throwError(Errors.ExpressionNotSpecified);
   }
 }
