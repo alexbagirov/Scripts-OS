@@ -1,10 +1,10 @@
 var priorities = {
     '(': 0,
     '+': 1,
-    '-': 1,
-    '*': 2,
-    '/': 2,
-    '^': 3
+    '-': 2,
+    '*': 3,
+    '/': 4,
+    '^': 4
 };
 
 var argumentIsRequired = true;
@@ -189,7 +189,7 @@ function decode(data) {
 
 function prioritize(element, currentOperation, isFirst) {
     var firstCondition = currentOperation === '^' && element[1] === priorities['^'] && !isFirst;
-    var secondCondition = element[1] !== 0 && element[1] <= priorities[currentOperation];
+    var secondCondition = element[1] !== 0 && element[1] <= priorities[currentOperation] && isFirst;
     var thirdCondition = currentOperation === '-' && isFirst && element[1] === 1;
 
     if (firstCondition || secondCondition || thirdCondition) {
@@ -200,5 +200,5 @@ function prioritize(element, currentOperation, isFirst) {
 }
 
 function throwError(error) {
-    throw new Error('Error ' + error.code + ': ' + error.message + '.');
+    throw new Error('Error: ' + error.message + '.');
 }
