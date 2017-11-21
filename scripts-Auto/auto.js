@@ -1,48 +1,40 @@
 var textFileName = process.argv[2];
 var substrFileName = process.argv[3];
-var fs = require('fs');
 
-try {
-    var text = fs.readFileSync(textFileName, 'utf-8').trim();
-}
-catch(exception) {
-    console.log('Error reading text.');
-    console.log(exception);
-    process.exit(1);
-}
-
-try {
-    var substr = fs.readFileSync(substrFileName, 'utf-8').trim();
-}
-catch(exception) {
-    console.log('Error reading substring.');
-    process.exit(2);
-}
+var text = readFile(textFileName);
+var substr = readFile(substrFileName);
 
 var additionalArguments = process.argv.slice(4);
 
 var keys = {
-    time: false,
+    showTime: false,
     showTable: false,
     numberOfResults: NaN
 }
 
 for (var i = 0; i < additionalArguments.length; i++) {
-    if (additionalArguments[i] === '-t') {
-        keys.time = true;
-    }
-    else if (additionalArguments[i] === '-s') {
-        keys.showTable = true;
-    }
-    else if (additionalArguments[i] === '-n') {
-        keys.numberOfResults = Number(additionalArguments[i + 1]);
+    switch(additionalArguments[i]) {
+        case '-t':
+            keys.showTime = true;
+            continue;
+        case '-s':
+            keys.showTable = true;
+            continue;
+        case '-n':
+            try {
+                keys.numberOfResults = Number(additionalArguments[i + 1]);
+            } catch (exception) {
+                console.log('An error occured while reading -n key.');
+                process.exit(2);
+            }
+            continue;
     }
 }
 
 var searchResults = searchUsingAutomation(text, substr, keys.numberOfResults);
 
 console.log(searchResults['entries'].join(', '));
-if (keys.time) {
+if (keys.showTime) {
     console.log('Time: ' + String(searchResults.time) + 'ms');
 }
 if (keys.showTable) {
@@ -130,4 +122,15 @@ function printAutomaton(automaton) {
     }
 
     console.log('='.repeat(13 + 5 * alphabet.length));
+}
+
+function readFile(fileName) {
+    var fs = require('fs');
+
+    try {
+        return fs.readFileSync(fileName, 'utf-8').trim();
+    } catch (exception) {
+        console.log('Error reading file.');
+        process.exit(1);
+    }
 }
