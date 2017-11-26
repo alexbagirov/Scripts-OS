@@ -1,12 +1,3 @@
-var priorities = {
-    '(': 0,
-    '+': 1,
-    '-': 2,
-    '*': 3,
-    '/': 4,
-    '^': 4
-};
-
 var argumentIsRequired = true;
 
 var Errors = {
@@ -74,6 +65,15 @@ catch(exception) {
 }
 
 function encode(data) {
+    var priorities = {
+        '(': 0,
+        '+': 1,
+        '-': 1,
+        '*': 2,
+        '/': 2,
+        '^': 3
+    };
+
     var stack = [];
     var answer = '';
     var pointer = 0;
@@ -84,7 +84,7 @@ function encode(data) {
           if (argumentIsRequired) {
               throwError(Errors.NotEnoughArguments);
           }
-          answer = processClosingParenthesis(stack, answer);
+          answer = processClosingParenthesis(stack, answer, priorities);
           pointer += 1;
         } else if (!(currentSymbol in priorities)) {
           if (!argumentIsRequired) {
@@ -97,7 +97,7 @@ function encode(data) {
           if (argumentIsRequired && currentSymbol !== '(') {
               throwError(Errors.NotEnoughArguments);
           }
-          answer = processOperation(currentSymbol, stack, answer);
+          answer = processOperation(currentSymbol, stack, answer, priorities);
           pointer += 1;
         }
     }
@@ -113,7 +113,7 @@ function encode(data) {
     return answer;
 }
 
-function processOperation(symbol, stack, answer) {
+function processOperation(symbol, stack, answer, priorities) {
     if (symbol === '(') {
         stack.push(symbol);
         return answer;
@@ -155,8 +155,18 @@ function processClosingParenthesis(stack, answer) {
 }
 
 function decode(data) {
+    var priorities = {
+        '(': 0,
+        '+': 1,
+        '-': 1,
+        '*': 3,
+        '/': 4,
+        '^': 5
+    };
+
     var stack = [];
     var pointer = 0;
+    var lastSymbolIsOperation = false;
 
     while (pointer < data.length) {
         var currentSymbol = data[pointer];
@@ -164,6 +174,7 @@ function decode(data) {
         if (!(currentSymbol in priorities)) {
             stack.push([currentSymbol, 0]);
             pointer += 1;
+            lastSymbolIsOperation = false;
         } else {
             if (stack.length < 2) {
                 throwError(Errors.NotEnoughOperands);
@@ -171,12 +182,13 @@ function decode(data) {
             var firstElement = stack.pop();
             var secondElement = stack.pop();
 
-            firstElement = prioritize(firstElement, currentSymbol, true);
-            secondElement = prioritize(secondElement, currentSymbol, false);
+            firstElement = prioritize(firstElement, currentSymbol, true, priorities, lastSymbolIsOperation);
+            secondElement = prioritize(secondElement, currentSymbol, false, priorities, lastSymbolIsOperation);
 
             stack.push([secondElement[0] + currentSymbol + firstElement[0], priorities[currentSymbol]]);
 
             pointer += 1;
+            lastSymbolIsOperation = true;
         }
     }
 
@@ -187,12 +199,13 @@ function decode(data) {
     return stack.pop()[0];
 }
 
-function prioritize(element, currentOperation, isFirst) {
+function prioritize(element, currentOperation, isFirst, priorities, lastSymbolIsOperation) {
     var firstCondition = currentOperation === '^' && element[1] === priorities['^'] && !isFirst;
-    var secondCondition = element[1] !== 0 && element[1] <= priorities[currentOperation] && isFirst;
+    var secondCondition = element[1] !== 0 && element[1] < priorities[currentOperation];
     var thirdCondition = currentOperation === '-' && isFirst && element[1] === 1;
+    var fourthCondition = lastSymbolIsOperation && element[1] === priorities[currentOperation];
 
-    if (firstCondition || secondCondition || thirdCondition) {
+    if (firstCondition || secondCondition || thirdCondition || fourthCondition) {
         element[0] = '(' + element[0] + ')';
     }
 
