@@ -21,9 +21,13 @@ function searchUsingHash(text, substring, calculateSubstringHash, updateBufferHa
         i++;
     }
 
-    var completionTime = Date.now();
+    var results = {
+        entries: entries,
+        collisions: collisions,
+        time: Date.now() - startupTime
+    };
 
-    return [entries, collisions, completionTime - startupTime];
+    return results;
 }
 
 module.exports.search = searchUsingHash;

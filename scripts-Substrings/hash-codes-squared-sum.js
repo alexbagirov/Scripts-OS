@@ -1,5 +1,7 @@
 var hashSearch = require('./hash-search');
 
+var squares = {};
+
 function searchUsingHashSumOfSquares(text, substring) {
     return hashSearch.search(text, substring, calculateSubstringHash, updateBufferHash, 1);
 }
@@ -21,8 +23,16 @@ function calculateSubstringHash(substring) {
 function updateBufferHash(bufferHash, text, substring, i) {
     var firstBufferCharCode = text.charCodeAt(i - substring.length);
     var newBufferCharCode = text.charCodeAt(i);
-    bufferHash -= firstBufferCharCode * firstBufferCharCode;
-    bufferHash += newBufferCharCode * firstBufferCharCode;
+    
+    if (!(firstBufferCharCode in squares)) {
+        squares[firstBufferCharCode] = firstBufferCharCode * firstBufferCharCode;
+    }
+    bufferHash -= squares[firstBufferCharCode];
+    if (!(newBufferCharCode in squares)) {
+        squares[newBufferCharCode] = newBufferCharCode * newBufferCharCode;
+    }
+    bufferHash += squares[newBufferCharCode];
+
     return bufferHash;
 }
 

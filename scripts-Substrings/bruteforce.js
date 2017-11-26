@@ -14,7 +14,7 @@ function bruteForce(text, substring) {
     var i = 0;
     while (i < text.length - substring.length + 1) {
         if (text[i] == substring[0]) {
-            if (utilities.stringsAreEqual(text.substring(i, i + substring.length), substring)) {
+            if (utilities.stringsAreEqual(text, substring, i)) {
                 entries.push(i);
             }
         }
@@ -22,9 +22,13 @@ function bruteForce(text, substring) {
         i++;
     }
 
-    var completionTime = Date.now();
+    var results = {
+        entries: entries,
+        collisions: 0,
+        time: Date.now() - startupTime
+    };
     
-    return [entries, 0, completionTime - startupTime];
+    return results;
 }
 
 module.exports.search = bruteForce;

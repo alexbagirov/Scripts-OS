@@ -6,25 +6,23 @@ var hashRabinKarp = require('./hash-rabin-karp');
 var utilities = require('./utilities')
 
 if (typeof process.argv[2] === 'undefined') {
-    utilities.throwError('Please provide text file name', 1);
+    utilities.throwError('Please provide text file name');
 }
 var textFileName = process.argv[2];
 if (typeof process.argv[3] === 'undefined') {
-    utilities.throwError('Please provide substring file name', 2);
+    utilities.throwError('Please provide substring file name');
 }
 var substringFileName = process.argv[3];
 
 try {
-    // var text = fs.readFileSync(textFileName, 'binary');
-    var text = 'aaaaaa';
+    var text = fs.readFileSync(textFileName, 'utf-8');
 } catch (exception) {
-    utilities.throwError('Text reading exception: ' + exception, 3);
+    utilities.throwError('Text reading exception: ' + exception);
 }
 try {
-    // var substring = fs.readFileSync(substringFileName, 'binary');
-    var substring = 'a';
+    var substring = fs.readFileSync(substringFileName, 'utf-8');
 } catch (exception) {
-    utilities.throwError('Substring reading exception: ' + exception, 4);
+    utilities.throwError('Substring reading exception: ' + exception);
 }
 
 var flags = processFlags(process.argv);
@@ -71,8 +69,11 @@ function processFlags(arguments) {
                 flags.rabinKarp = true;
                 continue;
             case '-n':
-                flags.numberOfResults = +additionalArgs[i + 1];
-                continue;
+                    flags.numberOfResults = Number(additionalArgs[i + 1]);
+                    if (isNaN(flags.numberOfResults)) {
+                        utilities.throwError('not enough arguments');
+                    }
+                    continue;
             default:
                 continue;
         }
@@ -81,21 +82,21 @@ function processFlags(arguments) {
     return flags;
 }
 
-function makeAnswer(array, flags, collision) {
+function makeAnswer(results, flags, collision) {
     var answer = '';
 
     if (flags.numberOfResults) {
-        array[0] = array[0].slice(0, flags.numberOfResults);
+        results.entries = results['entries'].slice(0, flags.numberOfResults);
     }
 
-    answer += array[0].join(', ') + '\r\n';
+    answer += results['entries'].join(', ') + '\r\n';
 
     if (collision) {
-        answer += 'Collisions: ' + String(array[1]) + '\r\n';
+        answer += 'Collisions: ' + String(results.collisions) + '\r\n';
     }
 
     if (flags.computeTime) {
-        answer += 'Time: ' + String(array[2]) + 'ms\r\n'
+        answer += 'Time: ' + String(results.time) + 'ms\r\n'
     }
 
     return answer;

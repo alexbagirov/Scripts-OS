@@ -1,9 +1,9 @@
-function stringsAreEqual(a, b) {
+function stringsAreEqual(string, substring, startFrom) {
     /*
-    *   This will return true if strings a and b are equal
+    *   This will return true if strings string from start index and substring are equal
     */
-    for (var i = 0; i < a.length; i++) {
-        if (a[i] !== b[i]) {
+    for (var i = 0; i < substring.length; i++) {
+        if (string[i + startFrom] !== substring[i]) {
             return false;
         }
     }
@@ -11,8 +11,9 @@ function stringsAreEqual(a, b) {
     return true;
 }
 
-function throwError(message, code) {
-    throw new Error('Error ' + code + ': ' + message + '.');
+function throwError(message) {
+    console.log('Error: ' + message + '.');
+    process.exit(1);
 }
 
 function compareHashesAndUpdateAnswer(a, b, index, firstHash, secondHash, entries, collisions) {
@@ -21,7 +22,7 @@ function compareHashesAndUpdateAnswer(a, b, index, firstHash, secondHash, entrie
     *   If they are equal, adds new index to answer. Otherwise increments collisions counter.
     */
     if (firstHash === secondHash) {
-        if (stringsAreEqual(a, b)) {
+        if (stringsAreEqual(a, b, 0)) {
             entries.push(index);
         }
         else {
