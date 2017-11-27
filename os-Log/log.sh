@@ -19,21 +19,21 @@ fi
 
 source=$2
 
-while read i
+while read -r i
     do
       if [[ "$i" = *"$source"* ]];
       then
-        array[${#array[@]}]=$( echo $i | tr -d ' ' | cut -d "|" -f  5 )
+        array[${#array[@]}]=$( echo "$i" | tr -d ' ' | cut -d "|" -f  5 )
       fi
-done < $file
+done < "$file"
 
 sortedArray=( $( printf "%s\n" "${array[@]}" | sort -n ) )
 
-if [[ $((${#array[@]}%2)) -eq 0 ]];
+if [[ $((${#sortedArray[@]}%2)) -eq 0 ]];
 then
-  first=$((${array[${#array[@]}%2]}))
-  second=$((${array[${#array[@]}%2+1]}))
+  first=$((${sortedArray[${#sortedArray[@]}%2]}))
+  second=$((${sortedArray[${#sortedArray[@]}%2+1]}))
   echo "scale=2; ($first + $second) / 2" | bc -l
 else
-  echo ${array[$((${#array[@]}/2))]}
+  echo "${sortedArray[$((${#sortedArray[@]}/2))]}"
 fi
