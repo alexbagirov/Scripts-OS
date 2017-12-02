@@ -160,7 +160,7 @@ function decode(data) {
         '+': 1,
         '-': 1,
         '*': 3,
-        '/': 4,
+        '/': 3,
         '^': 5
     };
 
@@ -203,7 +203,7 @@ function prioritize(element, currentOperation, isFirst, priorities, lastSymbolIs
     var firstCondition = currentOperation === '^' && element[1] === priorities['^'] && !isFirst;
     var secondCondition = element[1] !== 0 && element[1] < priorities[currentOperation];
     var thirdCondition = currentOperation === '-' && isFirst && element[1] === 1;
-    var fourthCondition = lastSymbolIsOperation && element[1] === priorities[currentOperation] && currentOperation !== '^';
+    var fourthCondition = lastSymbolIsOperation && element[1] === priorities[currentOperation] && priorities[currentOperation] === 1;
 
     if (firstCondition || secondCondition || thirdCondition || fourthCondition) {
         element[0] = '(' + element[0] + ')';
