@@ -203,7 +203,7 @@ function prioritize(element, currentOperation, isFirst, priorities, lastSymbolIs
     var firstCondition = currentOperation === '^' && element[1] === priorities['^'] && !isFirst;
     var secondCondition = element[1] !== 0 && element[1] < priorities[currentOperation];
     var thirdCondition = currentOperation === '-' && isFirst && element[1] === 1;
-    var fourthCondition = lastSymbolIsOperation && element[1] === priorities[currentOperation];
+    var fourthCondition = lastSymbolIsOperation && element[1] === priorities[currentOperation] && currentOperation !== '^';
 
     if (firstCondition || secondCondition || thirdCondition || fourthCondition) {
         element[0] = '(' + element[0] + ')';
