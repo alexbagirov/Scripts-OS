@@ -18,8 +18,8 @@ function calculateSubstringHash(substring, base) {
 }
 
 function updateBufferHash(bufferHash, text, substring, i, base) {
-    bufferHash -= text.charCodeAt(i - substring.length) * Math.pow(base, i - substring.length);
-    bufferHash += text.charCodeAt(i) * Math.pow(base, substring.length - i);
+    bufferHash = (bufferHash - text.charCodeAt(i - substring.length)) / 2;
+    bufferHash += text.charCodeAt(i) * Math.pow(base, substring.length - 1);
     return bufferHash;
 }
 

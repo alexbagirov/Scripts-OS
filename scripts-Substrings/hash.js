@@ -15,12 +15,12 @@ if (typeof process.argv[3] === 'undefined') {
 var substringFileName = process.argv[3];
 
 try {
-    var text = fs.readFileSync(textFileName, 'utf-8');
+    var text = fs.readFileSync(textFileName, 'utf-8').trim();
 } catch (exception) {
     utilities.throwError('Text reading exception: ' + exception);
 }
 try {
-    var substring = fs.readFileSync(substringFileName, 'utf-8');
+    var substring = fs.readFileSync(substringFileName, 'utf-8').trim();
 } catch (exception) {
     utilities.throwError('Substring reading exception: ' + exception);
 }
