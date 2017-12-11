@@ -1,7 +1,30 @@
-if [[ -d "$1" ]];
+#!/bin/bash
+
+until [ -z "$1" ]
+do
+  case "$1" in
+    -h|--help)
+      echo "      ShardCollect
+      ============
+      echo This program outputs all subfolders without any active files.
+      echo USAGE: $0 [folder]"
+      exit 0
+      ;;
+    -d|--directory)
+      if [[ -d "$2" ]];
+      then
+        folder=$2
+      else
+        folder="."
+      fi
+      shift
+      ;;
+  esac
+  shift
+done
+
+if [ -z $folder ];
 then
-  folder=$1
-else
   folder="."
 fi
 
@@ -13,31 +36,32 @@ do
     folders=$folders:$file:
   fi
 done
-folders=$folders:
+folders="$folders:"
 
 usedFolders="::.::"
 
-for i in $(lsof -Fn +D . | tail -n +2 | cut -c2-);
+for line in $(lsof -Fn +D $folder 2>/dev/null | tail -n +2);
 do
-  if [[ "$i" = $folder* ]];
+  if [[ "$line" = n* ]];
   then
-    upperFolder=$(dirname $i)
+    upperFolder=$(dirname "${line/n}")
 
-    until [[ ! "${folders/"::$upperFolder::"}" = "$folders" ]];
+    while [[ "${folders/::$upperFolder::}" = "$folders" ]];
     do
-      upperFolder=$(dirname $upperFolder)
+      upperFolder=$(dirname "$upperFolder")
     done
     usedFolders=$usedFolders::$upperFolder::
   fi
 done
 
-for i in $folder/*;
+IFS=$'\n'
+for dir in $folder/*;
 do
-  if [[ -d $i ]];
+  if [[ -d $dir ]];
   then
-    if [[ "${usedFolders/$i}" = "$usedFolders" ]];
+    if [[ "${usedFolders/::$dir::}" = "$usedFolders" ]];
     then
-      echo $i
+      echo "$dir"
     fi
   fi
 done
