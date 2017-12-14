@@ -1,17 +1,11 @@
 try {
-    if (typeof (process.argv[2]) === 'undefined') {
-        throw new Error('Please provide operation.')
+    for (var i = 2; i < 5; i++) {
+        if (typeof (process.argv[i]) === 'undefined') {
+            throw new Error('Not enough arguments.')
+        }
     }
     var operation = process.argv[2];
-  
-    if (typeof (process.argv[3]) === 'undefined') {
-        throw new Error('Please provide output file name.')
-    }
     var inputFileName = process.argv[3];
-
-    if (typeof (process.argv[4]) === 'undefined') {
-        throw new Error('Please provide output file name.')
-    }
     var outputFileName = process.argv[4];
 }
 catch(exception) {
@@ -20,17 +14,37 @@ catch(exception) {
 }
 
 var fs = require('fs');
-var text = fs.readFileSync(inputFileName, 'utf-8').toLowerCase().replace(/(?![a-z])./g, '').trim();
+try {
+    var text = fs.readFileSync(inputFileName, 'utf-8').toLowerCase().replace(/(?![a-z])./g, '').trim();
+}
+catch(exception) {
+    console.log('Error reading file.');
+    process.exit(2);
+}
 
 if (operation === 'encode') {
-    fs.writeFileSync(outputFileName, encode(text), 'utf-8');
+    var result = encode(text);
 }
 else if (operation === 'decode') {
-    fs.writeFileSync(outputFileName, decode(text), 'utf-8');
+    var decodeResult = decode(text);
+    console.log(decodeResult.codeWord);
+    var result = decodeResult.decodedText;
 }
 else {
     console.log('Operation not found.');
+    process.exit(3);
 }
+try {
+    fs.writeFileSync(outputFileName, result, 'utf-8');
+}
+catch(exception) {
+    console.log('Error writing answer.');
+    process.exit(4);
+}
+
+var FIRST_LETTER_CODE = 97;
+var LAST_LETTER_CODE = 122;
+var ALPHABET_LENGTH = FIRST_LETTER_CODE - LAST_LETTER_CODE;
 
 
 function encode(text) {
@@ -50,8 +64,8 @@ function encode(text) {
     var answer = '';
     for (var i = 0; i < text.length; i++) {
         var currentCharCodeShifted = text.charCodeAt(i) + shifts[i % codeWord.length];
-        if (currentCharCodeShifted > 122) {
-            currentCharCodeShifted -= 26;
+        if (currentCharCodeShifted > LAST_LETTER_CODE) {
+            currentCharCodeShifted -= ALPHABET_LENGTH;
         }
         answer += String.fromCharCode(currentCharCodeShifted);
     }
@@ -76,8 +90,11 @@ function decode(text) {
         iterateThroughCombinations(new Array(i), 0);
     }
 
-    console.log(bestCodeWord);
-    return outputText;
+    var results = {
+        codeWord: bestCodeWord,
+        decodedText: outputText
+    }
+    return results;
 
     function iterateThroughCombinations(arr, position) {
         if (typeof(arr[arr.length - 1]) !== 'undefined') {
@@ -85,7 +102,7 @@ function decode(text) {
             return;
         }
     
-        for (var i = 97; i < 97 + 26; i++) {
+        for (var i = FIRST_LETTER_CODE; i < LAST_LETTER_CODE; i++) {
             arr[position] = String.fromCharCode(i);
             iterateThroughCombinations(arr, position + 1);
         }
@@ -97,8 +114,8 @@ function decode(text) {
         var decodedText = '';
         for (var i = 0; i < text.length; i++) {
             var currentCharCodeShifted = text.charCodeAt(i) - shifts[i % codeWord.length];
-            if (currentCharCodeShifted < 97) {
-                currentCharCodeShifted += 26;
+            if (currentCharCodeShifted < FIRST_LETTER_CODE) {
+                currentCharCodeShifted += ALPHABET_LENGTH;
             }
             decodedText += String.fromCharCode(currentCharCodeShifted);
         }
@@ -137,8 +154,8 @@ function countDistance(normalFrequencies, decodedTextFrequeincies) {
     var distance = 0;
 
     for (var letter in decodedTextFrequeincies) {
-        distance += (decodedTextFrequeincies[letter] - 
-            normalFrequencies[letter]) * (decodedTextFrequeincies[letter] - normalFrequencies[letter]);
+        var letterDistance = decodedTextFrequeincies[letter] - normalFrequencies[letter];
+        distance += letterDistance * letterDistance;
     }
 
     return distance;
@@ -147,7 +164,7 @@ function countDistance(normalFrequencies, decodedTextFrequeincies) {
 function countShifts(codeWord) {
     var shifts = {};
     for (var i = 0; i < codeWord.length; i++) {
-        shifts[i] = codeWord.charCodeAt(i) % 97;
+        shifts[i] = codeWord.charCodeAt(i) % FIRST_LETTER_CODE;
     }
     return shifts;
 }
