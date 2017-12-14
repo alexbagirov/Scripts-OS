@@ -9,7 +9,7 @@ function boyerMooreSearch(str, pattern, numberOfResults) {
         if (isNaN(shift)) {
             entries.push(index - pattern.length + 1);
             if (entries.length === numberOfResults) {
-                return entries;
+                break;
             }
             index++;
         }
