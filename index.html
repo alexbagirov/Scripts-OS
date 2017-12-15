@@ -85,6 +85,11 @@
   				</div>
   			</div>
   		</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Поиск полным перебором хорошо справляется со своей задачей по времени, так как у него нет зависимости
+				от объема вводимых данных.</p>
+			</div>
     </section>
 
     <section class="algo">
@@ -133,6 +138,10 @@
   				</div>
   			</div>
   		</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Увеличение объема вводимых данных плохо сказывается на быстродействии алгоритма.</p>
+			</div>
     </section>
 
     <section class="algo">
@@ -181,6 +190,10 @@
   				</div>
   			</div>
   		</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>У данного алгоритма всё ещё хуже, так как добавляется ресурсоёмкая операция - возведения числа в квадрат.</p>
+			</div>
     </section>
 
     <section class="algo">
@@ -229,6 +242,11 @@
   				</div>
   			</div>
   		</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Возведений в степень стало больше. Преимущество алгоритма - меньшее
+					количество коллизий по сравнению с двумя предыдущими.</p>
+			</div>
     </section>
 
     <section class="algo">
@@ -277,6 +295,11 @@
   				</div>
   			</div>
   		</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Алгоритм крайне затратен по времени при большой длине строки для поиска, так как
+					построенная таблица очень сильно разрастается.</p>
+			</div>
     </section>
 
     <section class="algo">
@@ -325,38 +348,135 @@
   				</div>
   			</div>
   		</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Для длинных текстов производительность алгоритма кажется лучше, чем у хэшей.</p>
+			</div>
     </section>
+
+		<section class="algo">
+      <h4>Короткий текст + длинная подстрока</h4>
+  		<div class="columns">
+  			<div class="column col-12 col-xs-12">
+					<div class="group">
+	  				<div class="card">
+	  					<div class="card-header">
+	  						<div class="card-title h5">Выполнение всеми алгоритмами тестов из данной группы</div>
+	  					</div>
+	  					<div class="card-body">
+	  						<div class="ct-chart ct-perfect-fourth" id="shortLong"></div>
+	  					</div>
+	  				</div>
+					</div>
+  			</div>
+			</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Лучшие алгоритмы - Bruteforce и Rabin-Karp. Разве что второй сильно потерял во времени на длинном тексте.</p>
+			</div>
+    </section>
+
+		<section class="algo">
+      <h4>Длинный текст + короткая подстрока</h4>
+  		<div class="columns">
+  			<div class="column col-12 col-xs-12">
+					<div class="group">
+	  				<div class="card">
+	  					<div class="card-header">
+	  						<div class="card-title h5">Выполнение всеми алгоритмами тестов из данной группы</div>
+	  					</div>
+	  					<div class="card-body">
+	  						<div class="ct-chart ct-perfect-fourth" id="longShort"></div>
+	  					</div>
+	  				</div>
+					</div>
+  			</div>
+			</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Bruteforce снова показывает самые лучшие результаты.</p>
+			</div>
+    </section>
+
+		<section class="algo">
+      <h4>Длинный текст + длинная подстрока</h4>
+  		<div class="columns">
+  			<div class="column col-12 col-xs-12">
+					<div class="group">
+	  				<div class="card">
+	  					<div class="card-header">
+	  						<div class="card-title h5">Выполнение всеми алгоритмами тестов из данной группы</div>
+	  					</div>
+	  					<div class="card-body">
+	  						<div class="ct-chart ct-perfect-fourth" id="longLong"></div>
+	  					</div>
+	  				</div>
+					</div>
+  			</div>
+			</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Bruteforce.</p>
+			</div>
+    </section>
+
+		<section class="algo">
+      <h4>Короткий текст + короткая подстрока</h4>
+  		<div class="columns">
+  			<div class="column col-12 col-xs-12">
+					<div class="group">
+	  				<div class="card">
+	  					<div class="card-header">
+	  						<div class="card-title h5">Выполнение всеми алгоритмами тестов из данной группы</div>
+	  					</div>
+	  					<div class="card-body">
+	  						<div class="ct-chart ct-perfect-fourth" id="shortShort"></div>
+	  					</div>
+	  				</div>
+					</div>
+  			</div>
+			</div>
+			<div class="toast toast-info">
+				<h6>Вывод</h6>
+				<p>Bruteforce снова показывает самые лучшие результаты.</p>
+			</div>
+    </section>
+
+		<div class="description">
+			<h3>Вывод</h3>
+			<p>Как ни странно, самые лучшие результаты в большинстве случаев показал алгоритм Bruteforce.</p>
+		</div>
 
 	</div>
 
 	<script>
-  makeChart('bfFirst', [5, 5, 5, 5, 5, 7, 15, 16, 5, 14]);
-  makeChart('bfSecond', [5, 5, 5, 6, 6, 5, 4, 6, 4, 5, 4, 5, 7, 9, 14, 14, 16, 16, 17, 15, 14]);
-  makeChart('bfThird', [6, 6, 6, 4, 4, 9, 16, 18, 5, 14]);
+  makeChart('bfFirst', [[5, 5, 5, 5, 5, 7, 15, 16, 5, 14]]);
+  makeChart('bfSecond', [[5, 5, 5, 6, 6, 5, 4, 6, 4, 5, 4, 5, 7, 9, 14, 14, 16, 16, 17, 15, 14]]);
+  makeChart('bfThird', [[6, 6, 6, 4, 4, 9, 16, 18, 5, 14]]);
 
-	makeChart('sumsFirst', [6, 7, 7, 7, 8, 13, 26, 29, 7, 22]);
-	makeChart('sumsSecond', [7, 7, 6, 10, 11, 7, 8, 11, 7, 7, 11, 11, 13, 17, 26, 27, 31, 29, 31, 28, 23]);
-	makeChart('sumsThird', [12, 14, 9, 8, 8, 14, 34, 35, 15, 28]);
+	makeChart('sumsFirst', [[6, 7, 7, 7, 8, 13, 26, 29, 7, 22]]);
+	makeChart('sumsSecond', [[7, 7, 6, 10, 11, 7, 8, 11, 7, 7, 11, 11, 13, 17, 26, 27, 31, 29, 31, 28, 23]]);
+	makeChart('sumsThird', [[12, 14, 9, 8, 8, 14, 34, 35, 15, 28]]);
 
-	makeChart('squaredFirst', [12, 11, 11, 9, 11, 19, 43, 76, 10, 37]);
-	makeChart('squaredSecond', [11, 11, 11, 13, 10, 10, 10, 11, 11, 11, 12, 10, 20, 20, 43, 43, 43, 74, 36, 82, 37, 37]);
-	makeChart('squaredThird', [12, 12, 11, 9, 11, 19, 41, 79, 12, 37]);
+	makeChart('squaredFirst', [[12, 11, 11, 9, 11, 19, 43, 76, 10, 37]]);
+	makeChart('squaredSecond', [[11, 11, 11, 13, 10, 10, 10, 11, 11, 11, 12, 10, 20, 20, 43, 43, 43, 74, 36, 82, 37, 37]]);
+	makeChart('squaredThird', [[12, 12, 11, 9, 11, 19, 41, 79, 12, 37]]);
 
-	makeChart('karpFirst', [4, 5, 5, 5, 5, 12, 32, 36, 5, 26]);
-	makeChart('karpSecond', [4, 4, 4, 5, 4, 5, 5, 5, 5, 5, 5, 5, 12, 12, 32, 31, 33, 39, 28, 26]);
-	makeChart('karpThird', [14, 16, 16, 15, 15, 27, 62, 73, 16, 56]);
+	makeChart('karpFirst', [[4, 5, 5, 5, 5, 12, 32, 36, 5, 26]]);
+	makeChart('karpSecond', [[4, 4, 4, 5, 4, 5, 5, 5, 5, 5, 5, 5, 12, 12, 32, 31, 33, 39, 28, 26]]);
+	makeChart('karpThird', [[14, 16, 16, 15, 15, 27, 62, 73, 16, 56]]);
 
-	makeChart('autoFirst', [7, 8, 8, 7, 7, 15, 35, 40, 7, 30]);
-	makeChart('autoSecond', [7, 7, 7, 9, 8, 8, 8, 9, 8, 7, 9, 7, 8, 8, 15, 15, 17, 35, 36, 40]);
-	makeChart('autoThird', [486, 610, 510, 516, 430, 347, 458, 545, 492, 695]);
+	makeChart('autoFirst', [[7, 8, 8, 7, 7, 15, 35, 40, 7, 30]]);
+	makeChart('autoSecond', [[7, 7, 7, 9, 8, 8, 8, 9, 8, 7, 9, 7, 8, 8, 15, 15, 17, 35, 36, 40]]);
+	makeChart('autoThird', [[486, 610, 510, 516, 430, 347, 458, 545, 492, 695]]);
 
-	makeChart('bmFirst', [8, 12, 11, 9, 12, 14, 32, 35, 9, 29]);
-	makeChart('bmSecond', [8, 8, 7, 7, 12, 9, 11, 9, 7, 7, 7, 11, 8, 7, 15, 31, 32, 35, 21, 29, 28]);
-	makeChart('bmThird', [20, 22, 21, 18, 19, 18, 21, 23, 22, 26]);
+	makeChart('bmFirst', [[8, 12, 11, 9, 12, 14, 32, 35, 9, 29]]);
+	makeChart('bmSecond', [[8, 8, 7, 7, 12, 9, 11, 9, 7, 7, 7, 11, 8, 7, 15, 31, 32, 35, 21, 29, 28]]);
+	makeChart('bmThird', [[20, 22, 21, 18, 19, 18, 21, 23, 22, 26]]);
 
   function makeChart(id, results) {
     var chart = new Chartist.Line('#' + id, {
-  		series: [results]
+  		series: results
   	}, {
   		low: 0
   	});
@@ -450,6 +570,30 @@
   		}
   	});
   }
+	</script>
+
+	<script>
+	makeBarChart('shortLong', [[5,6,12,4,7,8], [5,7,11,5,8,12],[5,7,11,5,8,11], [5,7,9,5,7,9], [5,8,11,5,7,12],
+											[7,13,19,12,15,14], [15,26,43,32,35,32], [16,29,76,36,40,35], [5,7,10,5,7,9], [14,22,37,26,30,29]], 10);
+	makeBarChart('longShort', [[5,7,11,4,7,8], [5,7,11,4,7,8], [6,11,10,4,8,12],
+											[4,8,10,5,8,11], [6,11,11,5,9,9], [4,7,11,5,8,7], [5,7,11,5,7,7],
+										  [4,11,12,5,9,7], [5,11,10,5,7,11], [14,26,43,32,15,15], [16,31,43,33,17,32], [16,29,74,39,35,35]], 5);
+	makeBarChart('longLong', [[14,26,43,32,15,15], [14,27,43,31,15,31], [16,31,43,33,17,32], [16,29,74,39,35,35],
+											[17,31,36,28,36,21], [15,28,82,26,40,29]], 10);
+
+	function makeBarChart(id, results, distance) {
+		new Chartist.Bar('#' + id, {
+	  labels: ['BF', 'Sums', 'Squared Sums', 'Rabin-Karp', 'Automaton', 'Boyer-Moore'],
+	  series: results
+		}, {
+		  seriesBarDistance: distance,
+		  reverseData: true,
+		  horizontalBars: true,
+		  axisY: {
+		    offset: 85
+		  }
+		});
+	}
 	</script>
 </body>
 
