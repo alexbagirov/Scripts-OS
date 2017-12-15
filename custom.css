@@ -2,9 +2,19 @@
   margin-top: 5em;
 }
 
+.description {
+  margin-top: 3em;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+}
+
 .algo {
   margin-top: 1.5em;
   margin-left: 1.5em;
   margin-right: 1.5em;
   margin-bottom: 2em;
+}
+
+.card {
+  margin-bottom: 1em;
 }

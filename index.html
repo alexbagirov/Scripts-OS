@@ -10,54 +10,74 @@
 	<link rel="stylesheet" href="spectre.css">
 	<link rel="stylesheet" href="spectre-icons.css">
 	<link rel="stylesheet" href="spectre-exp.css">
-  <link rel="stylesheet" href="custom.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
 	<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+	<link rel="stylesheet" href="custom.css">
 </head>
 
 <body class="bg-gray">
 	<div class="main">
 		<div class="grid-hero container grid-lg text-center">
 			<h1>Substrings Analysis</h1>
-			<h4>Алгоритмы: Bruteforce, Hash Sums, Squared Hash Sums, Rabin-Karp, Automaton, Boyer-Moore</h4> </div>
+			<h4>Алгоритмы: Bruteforce, Hash Sums, Squared Hash Sums, Rabin-Karp, Automaton, Boyer-Moore</h4>
+		</div>
+		<div class="description">
+			<p>Для всех написанных алгоритмов поиска подстроки в строке были созданы 4 группы тестов:</p>
+			<ol>
+				<li>короткий текст + длинная подстрока</li>
+				<li>короткий текст + длинная подстрока</li>
+				<li>короткий текст + длинная подстрока</li>
+				<li>короткий текст + длинная подстрока</li>
+			</ol>
+			<p>Каждая группа содержала как минимум 10 тестов, каждый из которых поочерёдно запускался для всех алгоритмов.</p>
+			<p>Ниже представлены графики зависимости времени поиска от входных данных каждого из тестов в четырёх группах
+				(по вертикали указано время в миллисекундах). Далее следует сравнение всех алгоритмов в каждой из групп тестов.</p>
+			<div class="toast">
+				<h6>Пояснение к тестам</h6>
+				<p>Длинные тексты взяты с данного <a href="http://www.gutenberg.org/wiki/Main_Page">сайта</a> и не являются равномерными по длине.<br>
+					Тексты 7, 8 и 9 значительно длиннее остальных, что отразилось на графиках. Это предоставляет дополнительную возможность для сравнения алгоритмов.</p>
+			</div>
+		</div>
 
     <section class="algo">
   		<h4>Bruteforce</h4>
   		<div class="columns">
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="bfFirst"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="bfSecond"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+			</div>
+			<div class="columns">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="bfThird"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="bfFourth"></div>
@@ -70,40 +90,42 @@
     <section class="algo">
       <h4>Hash Sums</h4>
   		<div class="columns">
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="sumsFirst"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="sumsSecond"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+			</div>
+			<div class="columns">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="sumsThird"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="sumsFourth"></div>
@@ -116,40 +138,42 @@
     <section class="algo">
       <h4>Hash Squared Sums</h4>
   		<div class="columns">
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="squaredFirst"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="squaredSecond"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+			</div>
+			<div class="columns">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="squaredThird"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="squaredFourth"></div>
@@ -162,17 +186,17 @@
     <section class="algo">
       <h4>Rabin-Karp</h4>
   		<div class="columns">
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="karpFirst"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
   						<div class="card-title h5">длинный текст + короткая подстрока</div>
@@ -182,20 +206,22 @@
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+			</div>
+			<div class="columns">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="karpThird"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="karpFourth"></div>
@@ -208,40 +234,42 @@
     <section class="algo">
       <h4>Automaton</h4>
   		<div class="columns">
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="autoFirst"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="autoSecond"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+			</div>
+			<div class="columns">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="autoThird"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="autoFourth"></div>
@@ -254,40 +282,42 @@
     <section class="algo">
       <h4>Boyer-Moore</h4>
   		<div class="columns">
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="bmFirst"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="bmSecond"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+			</div>
+			<div class="columns">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  						<div class="card-title h5">длинный текст +<br>длинная подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="bmThird"></div>
   					</div>
   				</div>
   			</div>
-  			<div class="column col-3 col-xs-12">
+  			<div class="column col-6 col-xs-12">
   				<div class="card">
   					<div class="card-header">
-  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  						<div class="card-title h5">короткий текст +<br>короткая подстрока</div>
   					</div>
   					<div class="card-body">
   						<div class="ct-chart ct-perfect-fourth" id="bmFourth"></div>
