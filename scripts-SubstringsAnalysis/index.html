@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="index, follow">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Substrings Analysis</title>
+	<link rel="stylesheet" href="spectre.css">
+	<link rel="stylesheet" href="spectre-icons.css">
+	<link rel="stylesheet" href="spectre-exp.css">
+  <link rel="stylesheet" href="custom.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+	<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+</head>
+
+<body class="bg-gray">
+	<div class="main">
+		<div class="grid-hero container grid-lg text-center">
+			<h1>Substrings Analysis</h1>
+			<h4>Алгоритмы: Bruteforce, Hash Sums, Squared Hash Sums, Rabin-Karp, Automaton, Boyer-Moore</h4> </div>
+
+    <section class="algo">
+  		<h4>Bruteforce</h4>
+  		<div class="columns">
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="bfFirst"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="bfSecond"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="bfThird"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="bfFourth"></div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+    </section>
+
+    <section class="algo">
+      <h4>Hash Sums</h4>
+  		<div class="columns">
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="sumsFirst"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="sumsSecond"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="sumsThird"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="sumsFourth"></div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+    </section>
+
+    <section class="algo">
+      <h4>Hash Squared Sums</h4>
+  		<div class="columns">
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="squaredFirst"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="squaredSecond"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="squaredThird"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="squaredFourth"></div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+    </section>
+
+    <section class="algo">
+      <h4>Rabin-Karp</h4>
+  		<div class="columns">
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="karpFirst"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="karpSecond"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="karpThird"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="karpFourth"></div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+    </section>
+
+    <section class="algo">
+      <h4>Automaton</h4>
+  		<div class="columns">
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="autoFirst"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="autoSecond"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="autoThird"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="autoFourth"></div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+    </section>
+
+    <section class="algo">
+      <h4>Boyer-Moore</h4>
+  		<div class="columns">
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="bmFirst"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="bmSecond"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">длинный текст + длинная подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="bmThird"></div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="column col-3 col-xs-12">
+  				<div class="card">
+  					<div class="card-header">
+  						<div class="card-title h5">короткий текст + короткая подстрока</div>
+  					</div>
+  					<div class="card-body">
+  						<div class="ct-chart ct-perfect-fourth" id="bmFourth"></div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+    </section>
+
+	</div>
+
+	<script>
+  makeChart('bfFirst', [5, 5, 5, 5, 5, 7, 15, 16, 5, 14]);
+  makeChart('bfSecond', [5, 5, 5, 6, 6, 5, 4, 6, 4, 5, 4, 5, 7, 9, 14, 14, 16, 16, 17, 15, 14]);
+  makeChart('bfThird', [6, 6, 6, 4, 4, 9, 16, 18, 5, 14]);
+
+  function makeChart(id, results) {
+    var chart = new Chartist.Line('#' + id, {
+  		series: [results]
+  	}, {
+  		low: 0
+  	});
+  	var seq = 0,
+  		delays = 80,
+  		durations = 500;
+  	chart.on('created', function() {
+  		seq = 0;
+  	});
+  	chart.on('draw', function(data) {
+  		seq++;
+  		if(data.type === 'line') {
+  			data.element.animate({
+  				opacity: {
+  					begin: seq * delays + 1000,
+  					dur: durations,
+  					from: 0,
+  					to: 1
+  				}
+  			});
+  		} else if(data.type === 'label' && data.axis === 'x') {
+  			data.element.animate({
+  				y: {
+  					begin: seq * delays,
+  					dur: durations,
+  					from: data.y + 100,
+  					to: data.y,
+  					easing: 'easeOutQuart'
+  				}
+  			});
+  		} else if(data.type === 'label' && data.axis === 'y') {
+  			data.element.animate({
+  				x: {
+  					begin: seq * delays,
+  					dur: durations,
+  					from: data.x - 100,
+  					to: data.x,
+  					easing: 'easeOutQuart'
+  				}
+  			});
+  		} else if(data.type === 'point') {
+  			data.element.animate({
+  				x1: {
+  					begin: seq * delays,
+  					dur: durations,
+  					from: data.x - 10,
+  					to: data.x,
+  					easing: 'easeOutQuart'
+  				},
+  				x2: {
+  					begin: seq * delays,
+  					dur: durations,
+  					from: data.x - 10,
+  					to: data.x,
+  					easing: 'easeOutQuart'
+  				},
+  				opacity: {
+  					begin: seq * delays,
+  					dur: durations,
+  					from: 0,
+  					to: 1,
+  					easing: 'easeOutQuart'
+  				}
+  			});
+  		} else if(data.type === 'grid') {
+  			var pos1Animation = {
+  				begin: seq * delays,
+  				dur: durations,
+  				from: data[data.axis.units.pos + '1'] - 30,
+  				to: data[data.axis.units.pos + '1'],
+  				easing: 'easeOutQuart'
+  			};
+  			var pos2Animation = {
+  				begin: seq * delays,
+  				dur: durations,
+  				from: data[data.axis.units.pos + '2'] - 100,
+  				to: data[data.axis.units.pos + '2'],
+  				easing: 'easeOutQuart'
+  			};
+  			var animations = {};
+  			animations[data.axis.units.pos + '1'] = pos1Animation;
+  			animations[data.axis.units.pos + '2'] = pos2Animation;
+  			animations['opacity'] = {
+  				begin: seq * delays,
+  				dur: durations,
+  				from: 0,
+  				to: 1,
+  				easing: 'easeOutQuart'
+  			};
+  			data.element.animate(animations);
+  		}
+  	});
+  }
+	</script>
+</body>
+
+</html>
