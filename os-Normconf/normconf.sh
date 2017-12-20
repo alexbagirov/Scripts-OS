@@ -15,19 +15,17 @@ fi
 if [[ "$1" = "" ]];
 then
   echo "Please provide file name."
-  exit 0
+  exit 1
 fi
 
 if [[ ! -f $1 ]];
 then
   echo "File not found."
-  exit 0
+  exit 2
 fi
 
 fileName=$1
-time=":s:min:h:d:"
-ditance=":mm:sm:dm:m:km:"
-weight=":mg:g:kg:t:"
+availableTypes=":s:min:h:d:mm:sm:dm:m:km:mg:g:kg:t"
 nbOfLine=0
 
 IFS=$'\n'
@@ -39,9 +37,11 @@ for line in $( cat $fileName ); do
   operation="+"
   dataType=""
 
-  for i in $( echo $line | cut -d "=" -f 2 | cut -d " " -f 1- );
+  for i in $( echo $line | cut -d "=" -f 2 );
   do
     value=0
+
+    if [[  ]]
 
     if [[ "$dataType" = "" ]];
     then
