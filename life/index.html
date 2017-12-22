@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .divCell {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-width: 1px;
+      border-style: dotted;
+      border-color: black;
+      background: white;
+    }
+
+    #universe {
+      position: relative;
+      margin: 20px auto;
+    }
+
+    .buttons {
+      width: 80%;
+      margin: 0 auto;
+    }
+  </style>
+  <script>
+    var DEAD = 0,
+      ALIVE = 1,
+      CELL_X_COUNT = 60,
+      CELL_Y_COUNT = 60,
+      TIMEOUT = 100,
+      interval
+      gameActive = false;
+
+    function createUniverse() {
+      var universe = document.getElementById('universe');
+      for (var i = 0; i < CELL_X_COUNT; i++) {
+        for (var j = 0; j < CELL_Y_COUNT; j++) {
+          var element = document.createElement('div');
+
+          element.className = 'divCell';
+          element.style.left = (i * 11) + 'px';
+          element.style.top = (j * 11) + 'px';
+          element.id = "x" + i + "y" + j;
+          element.setAttribute("state", DEAD);
+          universe.appendChild(element);
+        }
+      }
+    }
+
+    function cellClick(event) {
+      if (event.target.tagName == "DIV") {
+        if (event.target.getAttribute("state") == DEAD) {
+          event.target.setAttribute("state", ALIVE);
+          event.target.style.background = "green";
+        } else {
+          event.target.setAttribute("state", DEAD);
+          event.target.style.background = "white"
+        }
+
+      }
+      event.stopPropagation();
+    }
+
+    function getCellState(x, y) {
+      if (x < 0 || x > CELL_X_COUNT || y < 0 || y > CELL_Y_COUNT) {
+        return null;
+      }
+
+      var cell = document.getElementById("x" + x + "y" + y);
+      return cell.getAttribute("state");
+    }
+
+    function setCellState(x, y, deadOrAlive) {
+
+      if (x < 0 || x > CELL_X_COUNT || y < 0 || y > CELL_Y_COUNT) {
+        return;
+      }
+
+      var cell = document.getElementById("x" + x + "y" + y);
+      cell.setAttribute("state", deadOrAlive);
+
+      cell.style.background =
+        deadOrAlive == DEAD ? "white" : "green";
+    }
+
+    function lifeStep() {
+      var cellsToBorn = [];
+      var cellsToDie = [];
+
+      for (var i = 0; i < CELL_X_COUNT; i++) {
+        for (var j = 0; j < CELL_Y_COUNT; j++) {
+          var cellNeighbours = getCellNeighbours(i, j);
+          var currentCellState = Number(getCellState(i, j));
+
+          if (currentCellState === DEAD && cellNeighbours.length === 3) {
+            cellsToBorn.push({
+              x: i,
+              y: j
+            });
+          }
+          if (currentCellState === ALIVE && (cellNeighbours.length
+          < 2 || cellNeighbours.length> 3)) {
+            cellsToDie.push({
+              x: i,
+              y: j
+            });  
+          }
+        }
+      }
+
+      if (cellsToBorn.length === 0 && cellsToDie.length === 0) {
+        pauseLife();
+      }
+
+      for (var cell of cellsToBorn) {
+        setCellState(cell.x, cell.y, ALIVE);
+      }
+      for (var cell of cellsToDie) {
+        setCellState(cell.x, cell.y, DEAD);
+      }
+    }
+
+    function getCellNeighbours(x, y) {
+      var neighbours = [];
+
+      for (var i = x - 1; i <= x + 1; i++) {
+        for (var j = y - 1; j <= y + 1; j++) {
+          if (i === x && j === y) {
+            continue;
+          }
+          if (getCellState((i + CELL_X_COUNT) % CELL_X_COUNT, (j + CELL_Y_COUNT) % CELL_Y_COUNT) === String(ALIVE)) {
+            neighbours.push({
+              x: i,
+              y: j
+            });
+          }
+        }
+      }
+
+      return neighbours;
+    }
+
+    function startLife() {
+      TIMEOUT = 1000 / document.getElementById('interval').value;
+
+      if (gameActive) {
+        clearInterval(interval);
+        interval = setInterval(lifeStep, TIMEOUT);
+        return;
+      }
+
+      interval = setInterval(lifeStep, TIMEOUT);
+      gameActive = true;
+    }
+
+    function pauseLife() {
+      if (!gameActive) {
+        return;
+      }
+      clearInterval(interval);
+      gameActive = false;
+    }
+  </script>
+  <title>Game of life</title>
+</head>
+
+<body onload="createUniverse();" onclick="cellClick(event)">
+  <div style="margin:10px auto; width:800px;">
+    <h1>Conway's game of life</h1>
+    <div state="0" class="buttons">
+      <button onclick="startLife()">Start</button>
+      <button onclick="pauseLife()">Pause</button>
+      <button onclick="lifeStep()">Step</button>
+      <input type="text" value="2" id="interval" placeholder="кол-во итераций в секунду"></input>
+    </div>
+    <div id='universe'></div>
+  </div>
+</body>
+
+</html>
